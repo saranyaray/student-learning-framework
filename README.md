@@ -32,6 +32,12 @@ A sophisticated multi-agent RAG (Retrieval Augmented Generation) system designed
   - FastAPI for REST API
   - FAISS for vector storage
   - LangChain for RAG pipeline
+  - Ollama for LLM serving
+
+- **AI Models** (via Ollama)
+  - Phi-3 for general reasoning and analysis
+  - Gemma for educational guidance
+  - Qwen2 for comprehensive responses
 
 - **Frontend**
   - Streamlit for web interface
@@ -43,6 +49,7 @@ A sophisticated multi-agent RAG (Retrieval Augmented Generation) system designed
 - Python 3.10 or higher
 - Virtual environment (recommended)
 - Git
+- Ollama installed and running (`ollama serve`)
 
 ## 🚀 Getting Started
 
@@ -63,7 +70,18 @@ A sophisticated multi-agent RAG (Retrieval Augmented Generation) system designed
    pip install -r requirements.txt
    ```
 
-4. **Initialize the system**
+4. **Set up Ollama**
+   ```bash
+   # Start Ollama server
+   ollama serve
+
+   # Pull required models
+   ollama pull phi
+   ollama pull gemma
+   ollama pull qwen
+   ```
+
+5. **Initialize the system**
    ```bash
    python main.py --all  # Run both document ingestion and QA pipeline
    ```
@@ -107,7 +125,7 @@ streamlit run main.py
 ### API Server
 ```bash
 cd web_app
-uvicorn routes:app --reload --port 8005
+python -m uvicorn web_app.routes:app --reload --host 0.0.0.0 --port 8005
 ```
 
 ## 🔧 Configuration
@@ -137,4 +155,4 @@ Key configuration files:
 - Streamlit for the UI framework
 
 ---
-Made with ❤️ by [Your Name]
+Made by Reuel Sajeev Koshy and Saranya Ray
