@@ -1,0 +1,143 @@
+# Virtual environments
+venv/
+.env/
+.envrc
+.venv/
+env/
+ENV/
+
+# Python bytecode
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# Secrets - NEVER commit your app secrets!
+.streamlit/secrets.toml
+*.env
+.env.local
+
+# Streamlit cache and logs
+.streamlit/*.log
+.streamlit/cache/
+.streamlit/config.toml
+
+# Jupyter & notebook checkpoints
+.ipynb_checkpoints
+*/.ipynb_checkpoints/*
+
+# System files
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+
+# IDE/project config
+.vscode/
+.idea/
+*.swp
+.project
+.pydevproject
+.settings/
+
+# Docker and container files
+Dockerfile
+.dockerignore
+docker-compose.yml
+*.dockerfile
+
+# OS-generated files
+*.bak
+*.tmp
+*~
+
+# Data/model files
+*.h5
+*.csv
+*.db
+*.sqlite
+*.pth
+*.pt
+*.pkl
+*.joblib
+*.model
+*.bin
+*.onnx
+
+# ML specific
+tensorboard/
+runs/
+wandb/
+mlruns/
+logs/
+*.log
+
+# Misc
+vectorstore/
+*.vectorstore/
+data/
+models/
+.coverage
+htmlcov/
+coverage.xml
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Large media files
+*.mp4
+*.tiff
+*.avi
+*.flv
+*.mov
+*.wmv
+
+# CoreUI React Template
+.DS_Store
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+yarn.lock
+
+# CoreUI Build output
+/build
+/dist
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# CoreUI IDE specific
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# CoreUI React Cache
+.cache/
+.parcel-cache/
+
+# CoreUI Testing
+/coverage
+.nyc_output
+
+# Optional: CoreUI specific temp files
+.temp/
+.tmp/
+
+**pg_analyzer.log*/
+
+# Ignore CoreUI React Template folder
+coreui-free-react-admin-template/
+coreui-free-react-admin-template/**
