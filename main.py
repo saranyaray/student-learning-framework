@@ -4,19 +4,21 @@ Main entry point for the Student Learning Framework
 Combines document ingestion and QA pipeline in one script
 """
 
-import sys
 import argparse
+import sys
 from pathlib import Path
 
 # Add src to Python path
 PROJECT_ROOT = Path(__file__).parent
 sys.path.append(str(PROJECT_ROOT))
 
+# Import after path setup
+from config.settings import UPLOAD_DIR, VECTORSTORE_DIR
 from src.ingestion.document_loader import DocumentLoader
 from src.ingestion.vector_store import VectorStoreManager
 from src.orchestration.crew_manager import StudentLearningCrew
 from src.retrieval.context_retriever import ContextRetriever
-from config.settings import UPLOAD_DIR, VECTORSTORE_DIR
+
 
 def ingest_documents():
     """Ingest each document as its own vector store."""
@@ -24,7 +26,7 @@ def ingest_documents():
     try:
         upload_dir = UPLOAD_DIR
         all_files = []
-        for ext in ['*.pdf', '*.txt', '*.docx']:
+        for ext in ["*.pdf", "*.txt", "*.docx"]:
             all_files.extend(upload_dir.glob(ext))
         if not all_files:
             print("❌ No document files found in data/raw/")
@@ -48,8 +50,10 @@ def ingest_documents():
     except Exception as e:
         print(f"❌ Ingestion failed: {e}")
         import traceback
+
         traceback.print_exc()
         return False
+
 
 def run_qa_pipeline():
     """Run the interactive QA pipeline with per-document selection."""
@@ -79,50 +83,53 @@ def run_qa_pipeline():
         print(f"\n🔍 Using document: {store_path.name.replace('_faiss_index','')}")
         crew = StudentLearningCrew(retriever)
 
-        print("\n" + "="*80)
+        print("\n" + "=" * 80)
         print("🎓 STUDENT LEARNING FRAMEWORK READY!")
-        print("="*80)
+        print("=" * 80)
         print("💡 Ask questions about your selected document")
         print("💡 Type 'quit', 'exit', or 'q' to stop")
-        print("="*80)
+        print("=" * 80)
 
         # Interactive loop
         while True:
             try:
                 question = input("\n📝 Your question: ").strip()
-                if question.lower() in ['quit', 'exit', 'q']:
+                if question.lower() in ["quit", "exit", "q"]:
                     print("👋 Goodbye!")
                     break
                 if not question:
                     continue
                 print("\n🤔 Processing your question...")
                 result = crew.process_question(question)
-                print("\n" + "="*60)
+                print("\n" + "=" * 60)
                 print("👥 EXPERT RESPONSES")
-                print("="*60)
+                print("=" * 60)
                 for role, response in result["expert_outputs"].items():
                     print(f"\n🔸 {role}:")
                     print("-" * 40)
                     print(response)
-                print("\n" + "="*60)
+                print("\n" + "=" * 60)
                 print("✨ FINAL ANSWER")
-                print("="*60)
+                print("=" * 60)
                 print(result["final_answer"])
-                print("="*60)
+                print("=" * 60)
             except KeyboardInterrupt:
                 print("\n👋 Goodbye!")
                 break
             except Exception as e:
                 print(f"❌ Error processing question: {e}")
                 import traceback
+
                 traceback.print_exc()
                 continue
         return True
     except Exception as e:
         print(f"❌ Failed to initialize system: {e}")
         import traceback
+
         traceback.print_exc()
         return False
+
 
 def main():
     """Main function with argument parsing"""
@@ -130,19 +137,13 @@ def main():
         description="Student Learning Framework - Multi-Agent RAG System"
     )
     parser.add_argument(
-        "--ingest", 
-        action="store_true", 
-        help="Run document ingestion to create vector store"
+        "--ingest",
+        action="store_true",
+        help="Run document ingestion to create vector store",
     )
+    parser.add_argument("--qa", action="store_true", help="Run interactive QA pipeline")
     parser.add_argument(
-        "--qa", 
-        action="store_true", 
-        help="Run interactive QA pipeline"
-    )
-    parser.add_argument(
-        "--all", 
-        action="store_true", 
-        help="Run both ingestion and QA pipeline"
+        "--all", action="store_true", help="Run both ingestion and QA pipeline"
     )
     args = parser.parse_args()
     # If no arguments provided, show help
@@ -155,7 +156,7 @@ def main():
         print("  python main.py --all       # Do both")
         print("\nFirst time? Run: python main.py --all")
         return
-    
+
     success = True
     if args.ingest or args.all:
         success = ingest_documents()
@@ -164,6 +165,7 @@ def main():
             return
     if (args.qa or args.all) and success:
         run_qa_pipeline()
+
 
 if __name__ == "__main__":
     main()

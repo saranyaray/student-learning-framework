@@ -6,7 +6,7 @@ venv/
 env/
 ENV/
 
-# Python bytecode
+# Python bytecode and distribution
 __pycache__/
 *.py[cod]
 *.pyo
@@ -17,11 +17,34 @@ __pycache__/
 dist/
 build/
 .eggs/
+*.pyc
+.Python
+develop-eggs/
+downloads/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+.installed.cfg
+MANIFEST
 
-# Secrets - NEVER commit your app secrets!
+# Secrets and local configurations
 .streamlit/secrets.toml
 *.env
 .env.local
+.env.development
+.env.test
+.env.production
+.env.*
+!.env.example
+config.local.yaml
+*.local.yaml
+credentials.json
+token.json
+secrets.yaml
 
 # Streamlit cache and logs
 .streamlit/*.log
@@ -45,6 +68,13 @@ Thumbs.db
 .project
 .pydevproject
 .settings/
+*.sublime-project
+*.sublime-workspace
+.spyderproject
+.spyproject
+.ropeproject
+/site
+.hypothesis/
 
 # Docker and container files
 Dockerfile
@@ -70,13 +100,26 @@ docker-compose.yml
 *.bin
 *.onnx
 
-# ML specific
+# ML and LLM specific
 tensorboard/
 runs/
 wandb/
 mlruns/
 logs/
 *.log
+.ollama/
+models/
+checkpoints/
+*.gguf
+*.bin
+saved_models/
+embeddings/
+.cache/huggingface/
+.transformers_cache/
+lightning_logs/
+ray_results/
+.ray/
+.aim/
 
 # Misc
 vectorstore/
@@ -86,9 +129,23 @@ models/
 .coverage
 htmlcov/
 coverage.xml
+# Testing and linting
 .pytest_cache/
 .mypy_cache/
 .ruff_cache/
+.tox/
+.nox/
+.coverage.*
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.pytest_cache/
+pytest-report.html
+.bandit
+.flake8
+.isort.cfg
+pyrightconfig.json
 
 # Large media files
 *.mp4
@@ -141,3 +198,4 @@ yarn.lock
 # Ignore CoreUI React Template folder
 coreui-free-react-admin-template/
 coreui-free-react-admin-template/**
+.flake8/

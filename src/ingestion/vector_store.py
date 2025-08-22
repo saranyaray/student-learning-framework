@@ -1,19 +1,22 @@
+import os
+
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_community.vectorstores import FAISS
 from langchain_huggingface import HuggingFaceEmbeddings
 
-from config.settings import EMBEDDING_MODEL, CHUNK_SIZE, CHUNK_OVERLAP
-import os
+from config.settings import CHUNK_OVERLAP, CHUNK_SIZE, EMBEDDING_MODEL
+
 
 class VectorStoreManager:
     def __init__(self):
         self.embeddings = HuggingFaceEmbeddings(model_name=EMBEDDING_MODEL)
         self.text_splitter = RecursiveCharacterTextSplitter(
-            chunk_size=CHUNK_SIZE,
-            chunk_overlap=CHUNK_OVERLAP
+            chunk_size=CHUNK_SIZE, chunk_overlap=CHUNK_OVERLAP
         )
 
-    def create_vectorstore_for_document(self, document, doc_id, dir_path="vectorstores"):
+    def create_vectorstore_for_document(
+        self, document, doc_id, dir_path="vectorstores"
+    ):
         """
         Make a vector store just for this document and save under a unique path.
         """
@@ -41,4 +44,6 @@ class VectorStoreManager:
         """
         Loads a FAISS vectorstore from a given path.
         """
-        return FAISS.load_local(load_path, self.embeddings, allow_dangerous_deserialization=True)
+        return FAISS.load_local(
+            load_path, self.embeddings, allow_dangerous_deserialization=True
+        )
