@@ -181,6 +181,7 @@ async def upload_document(
     background_tasks: BackgroundTasks = None
 ):
     global active_document_stores
+    
     # Validate file type
     file_extension = Path(file.filename).suffix.lower()
     if file_extension not in ALLOWED_EXTENSIONS:
@@ -188,46 +189,72 @@ async def upload_document(
             status_code=400, 
             detail=f"File type {file_extension} not supported. Allowed: {ALLOWED_EXTENSIONS}"
         )
+    
+    # Validate file content (basic check)
+    content = await file.read()
+    await file.seek(0)  # Reset file position after reading
+    
+    # Basic content validation based on file signatures
+    if file_extension == '.pdf' and not content.startswith(b'%PDF'):
+        raise HTTPException(400, "File is not a valid PDF")
+    elif file_extension == '.docx' and not content.startswith(b'PK'):
+        raise HTTPException(400, "File is not a valid DOCX")
+    
     # Validate file size
     if file.size and file.size > MAX_FILE_SIZE:
         raise HTTPException(
             status_code=400,
             detail=f"File too large. Maximum size: {MAX_FILE_SIZE / 1024 / 1024:.1f}MB"
         )
+    
     # Create upload directory if it doesn't exist
     UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
+    
     # Save uploaded file
     file_location = UPLOAD_DIR / file.filename
+    
     try:
         # Save the uploaded file
         with open(file_location, "wb") as buffer:
             shutil.copyfileobj(file.file, buffer)
         print(f"✅ File saved: {file_location}")
+        
         # Background task to ingest the document
         def ingest_uploaded_document(file_path: str, filename: str):
             global active_document_stores
             try:
                 print(f"🔄 Starting ingestion of: {file_path}")
+                
+                # Use the enhanced DocumentLoader that handles multiple file types
                 loader = DocumentLoader()
-                vector_manager = VectorStoreManager()
-                documents = loader.load(file_path)
+                documents = loader.load(file_path)  # This now handles PDF/DOCX/TXT automatically
                 print(f"📄 Loaded {len(documents)} document chunks")
+                
                 if not documents:
                     raise ValueError("No documents loaded - file may be empty or corrupted")
+                
                 valid_documents = [doc for doc in documents if doc.page_content.strip()]
                 if not valid_documents:
                     raise ValueError("All document pages are empty after text extraction")
+                
                 print(f"✅ Found {len(valid_documents)} valid document chunks")
+                
+                # Create vector store
+                vector_manager = VectorStoreManager()
                 store_path = get_vectorstore_path(filename)
                 vector_manager.from_documents(valid_documents, str(store_path))
                 print(f"🔍 Vector store created: {store_path}")
+                
+                # Update active document stores
                 doc_name = Path(filename).stem
                 active_document_stores[doc_name] = store_path
                 print("✅ Document ingestion completed successfully!")
+                
             except Exception as e:
                 print(f"❌ Ingestion failed: {e}")
                 import traceback
                 traceback.print_exc()
+        
         # Add ingestion to background tasks
         if background_tasks:
             background_tasks.add_task(ingest_uploaded_document, str(file_location), file.filename)
@@ -235,6 +262,7 @@ async def upload_document(
         else:
             ingest_uploaded_document(str(file_location), file.filename)
             processing_message = "Document uploaded and processed successfully"
+        
         return JSONResponse(content={
             "message": processing_message,
             "filename": file.filename,
@@ -243,6 +271,7 @@ async def upload_document(
             "file_size": f"{file.size / 1024 / 1024:.2f} MB" if file.size else "Unknown",
             "status": "uploaded"
         })
+        
     except Exception as e:
         # Clean up file if processing failed
         if file_location.exists():
