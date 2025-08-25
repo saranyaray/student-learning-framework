@@ -8,14 +8,13 @@ class SynthesizerAgent(BaseStudentAgent):
         super().__init__(
             role="Synthesizer",
             goal=(
-                "Read the three expert answers. Extract unique points from each. "
-                "Create a short, numbered list (3-5 points max) with no repetition. "
-                "Keep each point to 1-2 sentences only."
+                "Carefully examine and compare multiple pieces of input from "
+                "different sources. Distill the most important, non-redundant "
+                "points, and present a concise synthesis for the user."
             ),
             backstory=(
-                "You are a concise editor who hates repetition. Your job is to take "
-                "expert answers and turn them into a brief, numbered summary that "
-                "students can read quickly without seeing the same point twice."
+                "You specialize in combining information from multiple perspectives, "
+                "eliminating overlap and providing clear, user-friendly summaries."
             ),
             llm_model=OLLAMA_AGENTS["synthesizer"],
         )
