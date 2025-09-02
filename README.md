@@ -151,7 +151,7 @@ Key configuration files:
 
 [Your License] - See LICENSE file for details
 
-## � Authors
+##  Authors
 
 ### Lead Developer
 **Reuel Sajeev Koshy**
@@ -165,7 +165,7 @@ Key configuration files:
 - 🔍 Testing & Quality Assurance
 - 📚 Documentation
 
-## �🙏 Acknowledgments
+## Acknowledgments
 
 - CoreUI for the admin template
 - OpenAI for language models
