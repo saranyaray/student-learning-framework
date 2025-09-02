@@ -2,6 +2,10 @@
 
 A sophisticated multi-agent RAG (Retrieval Augmented Generation) system designed to enhance the learning experience through intelligent document processing and interactive Q&A capabilities.
 
+**Authors:**
+- Reuel Sajeev Koshy (Lead Developer)
+- Saranya Ray (Co-Developer)
+
 ## 🌟 Features
 
 - **📚 Document Management**
@@ -147,7 +151,21 @@ Key configuration files:
 
 [Your License] - See LICENSE file for details
 
-## 🙏 Acknowledgments
+## � Authors
+
+### Lead Developer
+**Reuel Sajeev Koshy**
+- 🌟 System Architecture & Core Development
+- 🤖 AI/ML Implementation
+- 📊 System Integration
+
+### Co-Developer
+**Saranya Ray**
+- 🎯 Feature Development
+- 🔍 Testing & Quality Assurance
+- 📚 Documentation
+
+## �🙏 Acknowledgments
 
 - CoreUI for the admin template
 - OpenAI for language models
@@ -155,3 +173,4 @@ Key configuration files:
 - Streamlit for the UI framework
 
 ---
+Made with ❤️ by Reuel Sajeev Koshy & Saranya Ray
