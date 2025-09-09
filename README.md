@@ -172,4 +172,3 @@ Key configuration files:
 - Streamlit for the UI framework
 
 ---
-Made by Reuel Sajeev Koshy & Saranya Ray
