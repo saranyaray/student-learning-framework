@@ -2,9 +2,8 @@
 
 A sophisticated multi-agent RAG (Retrieval Augmented Generation) system designed to enhance the learning experience through intelligent document processing and interactive Q&A capabilities.
 
-**Authors:**
-- Reuel Sajeev Koshy (Lead Developer)
-- Saranya Ray (Co-Developer)
+**Author:**
+- Saranya Ray
 
 ## 🌟 Features
 
