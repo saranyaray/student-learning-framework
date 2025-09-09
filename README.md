@@ -150,20 +150,6 @@ Key configuration files:
 
 [Your License] - See LICENSE file for details
 
-##  Authors
-
-### Lead Developer
-**Reuel Sajeev Koshy**
-- 🌟 System Architecture & Core Development
-- 🤖 AI/ML Implementation
-- 📊 System Integration
-
-### Co-Developer
-**Saranya Ray**
-- 🎯 Feature Development
-- 🔍 Testing & Quality Assurance
-- 📚 Documentation
-
 ## Acknowledgments
 
 - CoreUI for the admin template
